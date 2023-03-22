@@ -31,15 +31,15 @@ jobs:
         if: "contains(github.event.inputs.next_version_type, 'Major')"
         run: |
           NEW_MAJOR=$(($MAJOR + 1))
-          versionName=release/$NEW_MAJOR.$MINOR.$PATCH
+          echo "versionName=$NEW_MAJOR.$MINOR.$PATCH" >> $GITHUB_ENV
 
       - name: If version type is minor
         if: "contains(github.event.inputs.next_version_type, 'Minor')"
         run: |
           NEW_MINOR=$(($MINOR + 1))
-          versionName=release/$MAJOR.$NEW_MINOR.$PATCH
+          echo "versionName=$MAJOR.$NEW_MINOR.$PATCH" >> $GITHUB_ENV
 
-      - run: git checkout -b $versionName
+      - run: git checkout -b ${{ env.versionName }}
 
       - name: Update major
         if: "contains(github.event.inputs.next_version_type, 'Major')"
