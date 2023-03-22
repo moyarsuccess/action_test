@@ -1,0 +1,42 @@
+name: ReleaseRc
+run-name: ${{ github.actor }} started a new RC
+on:
+  workflow_dispatch:
+    next_version_type:
+      description: 'The next version type'
+      required: true
+      type: choice
+      default: Minor
+      options:
+        - Minor
+        - Major
+
+jobs:
+  release-rc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install replace -g
+      - run: |
+          git config --global user.email "moyarsuccess@gmail.com"
+          git config --global user.name "Moyar"
+          git checkout -b $versionName
+          PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          if [[ ${{ github.event.inputs.next_version_type }} -eq Major ]]
+          then
+            MAJOR=$(grep 'const val major =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+            NEW_MAJOR=$(($MAJOR + 1))
+            replace "const val major = $MAJOR" "const val rcVersion = $NEW_MAJOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+            versionName=release/$NEW_MAJOR.$MINOR.$PATCH
+          else
+            MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+            NEW_MINOR=$(($MINOR + 1))
+            replace "const val minor = $MINOR" "const val rcVersion = $NEW_MINOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+            versionName=release/$MAJOR.$NEW_MINOR.$PATCH
+
+          git add -A
+          git commit -m "Release a new RC"
+          git push --set-upstream origin $versionName
