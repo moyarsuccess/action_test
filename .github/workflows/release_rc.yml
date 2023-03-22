@@ -19,7 +19,7 @@ on:
         type: string
 
 jobs:
-  check-bats-version:
+  release-rc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
