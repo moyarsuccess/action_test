@@ -13,7 +13,7 @@ jobs:
           node-version: '14'
       - run: npm install replace -g
       - run: |
-          VERSION=grep 'const val rcVersion =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev
+          grep 'const val rcVersion =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev > VERSION
           echo $VERSION
           NEW_VERSION=VERSION + 1
           echo $NEW_VERSION
