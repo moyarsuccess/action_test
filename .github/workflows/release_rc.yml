@@ -18,6 +18,11 @@ on:
         required: true
         type: string
 
+env:
+  FILE_NAME: /Users/mohammadmoradyar/AndroidStudioProjects/firework_sdk_v2/buildSrc/src/main/kotlin/AppVersion.kt
+  LINE_CONTENT: isRc = false
+  NEW_LINE_CONTENT: isRc = false
+
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
@@ -30,9 +35,9 @@ jobs:
       - run: |
           git config --global user.email "moyarsuccess@gmail.com"
           git config --global user.name "Moyar"
-          git checkout -b release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
-      - run: replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
-      - run: |
+          versionName=release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
+          git checkout -b versionName
+          replace $LINE_CONTENT $NEW_LINE_CONTENT $FILE_NAME
           git add -A
           git commit -m "Bump the version"
-          git push --set-upstream origin release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
+          git push --set-upstream origin versionName

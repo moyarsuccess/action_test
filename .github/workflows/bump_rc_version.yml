@@ -1,0 +1,29 @@
+name: BumpRcVersion
+run-name: ${{ github.actor }} bumped the RC version
+on:
+  workflow_dispatch:
+
+env:
+  FILE_NAME: /Users/mohammadmoradyar/AndroidStudioProjects/firework_sdk_v2/buildSrc/src/main/kotlin/AppVersion.kt
+  LINE_CONTENT: const val rcVersion =
+
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      -
+      - run: npm install replace -g
+      - run: |
+          VERSION=grep '$LINE_CONTENT' $FILE_NAME | rev | cut -d' ' -f1 | rev
+          NEW_VERSION = VERSION + 1
+          replace 'const val rcVersion = $VERSION' 'const val rcVersion = NEW_VERSION' $FILE_NAME
+      - run: |
+          git config --global user.email "moyarsuccess@gmail.com"
+          git config --global user.name "Moyar"
+          git add -A
+          git commit -m "Bump the version"
+          git push --set-upstream origin release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
