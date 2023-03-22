@@ -26,21 +26,31 @@ jobs:
       - run: MAJOR=$(grep 'const val major =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
       - run: MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
       - run: PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
-      - run: |
-          if [[ ${{ github.event.inputs.next_version_type }} -eq Major ]]
-          then
-            NEW_MAJOR=$(($MAJOR + 1))
-            versionName=release/$NEW_MAJOR.$MINOR.$PATCH
-          else
-            NEW_MINOR=$(($MINOR + 1))
-            versionName=release/$MAJOR.$NEW_MINOR.$PATCH
+
+      - name: If version type is major
+        if: "contains(github.event.inputs.next_version_type, 'Major')"
+        run: |
+          NEW_MAJOR=$(($MAJOR + 1))
+          versionName=release/$NEW_MAJOR.$MINOR.$PATCH
+
+      - name: If version type is minor
+        if: "contains(github.event.inputs.next_version_type, 'Minor')"
+        run: |
+          NEW_MINOR=$(($MINOR + 1))
+          versionName=release/$MAJOR.$NEW_MINOR.$PATCH
+
       - run: git checkout -b $versionName
-      - run: |    
-          if [[ ${{ github.event.inputs.next_version_type }} -eq Major ]]
-          then
-            replace "const val major = $MAJOR" "const val rcVersion = $NEW_MAJOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
-          else
-            replace "const val minor = $MINOR" "const val rcVersion = $NEW_MINOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+
+      - name: Update major
+        if: "contains(github.event.inputs.next_version_type, 'Major')"
+        run: |
+          replace "const val major = $MAJOR" "const val rcVersion = $NEW_MAJOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+
+      - name: Update minor
+        if: "contains(github.event.inputs.next_version_type, 'Minor')"
+        run: |
+          replace "const val minor = $MINOR" "const val rcVersion = $NEW_MINOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+
       - run: git add -A
       - run: git commit -m "Release a new RC"
       - run: git push --set-upstream origin $versionName
