@@ -1,5 +1,5 @@
-name: ReleaseRc
-run-name: ${{ github.actor }} started a new RC
+name: BumpMainVersion
+run-name: ${{ github.actor }} requested version increase for main
 on:
   workflow_dispatch:
     next_version_type:
@@ -12,7 +12,7 @@ on:
         - Major
 
 jobs:
-  release-rc:
+  bump-main-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
