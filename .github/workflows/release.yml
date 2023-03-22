@@ -1,0 +1,22 @@
+name: Release
+run-name: ${{ github.actor }} started a new Release
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install replace -g
+      - run: |
+          git config --global user.email "moyarsuccess@gmail.com"
+          git config --global user.name "Moyar"
+          replace 'isRc = true' 'isRc = false' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+          replace 'isSnapshot = true' 'isSnapshot = false' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+          git add -A
+          git commit -m "Release a new version"
+          git push
