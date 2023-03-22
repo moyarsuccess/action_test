@@ -37,7 +37,7 @@ jobs:
           git config --global user.name "Moyar"
           versionName=release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
           git checkout -b $versionName
-          replace $LINE_CONTENT $NEW_LINE_CONTENT $FILE_NAME
+          replace ${{ env.LINE_CONTENT }} ${{ env.NEW_LINE_CONTENT }} ${{ env.FILE_NAME }}
           git add -A
           git commit -m "Release a new RC"
           git push --set-upstream origin $versionName
