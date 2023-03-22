@@ -21,4 +21,4 @@ jobs:
           git config --global user.name "Moyar"
           git add -A
           git commit -m "Bump the version"
-          git push --set-upstream origin release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
+          git push
