@@ -51,7 +51,7 @@ jobs:
           MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           NEW_MAJOR=$(($MAJOR + 1))
-          replace "const val major = $MAJOR" "const val rcVersion = $NEW_MAJOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+          replace "const val major = $MAJOR" "const val major = $NEW_MAJOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
 
       - name: Update minor
         if: "contains(github.event.inputs.next_version_type, 'Minor')"
@@ -60,7 +60,7 @@ jobs:
           MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           NEW_MINOR=$(($MINOR + 1))
-          replace "const val minor = $MINOR" "const val rcVersion = $NEW_MINOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+          replace "const val minor = $MINOR" "const val minor = $NEW_MINOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
 
       - run: git add -A
       - run: git commit -m "Release a new RC"
