@@ -18,11 +18,6 @@ on:
         required: true
         type: string
 
-env:
-  FILE_NAME: app/src/main/java/com/moradyar/githubactions/AppVersion.kt
-  LINE_CONTENT: 'isRc = false'
-  NEW_LINE_CONTENT: 'isRc = false'
-
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
@@ -37,7 +32,7 @@ jobs:
           git config --global user.name "Moyar"
           versionName=release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
           git checkout -b $versionName
-          replace $LINE_CONTENT $NEW_LINE_CONTENT $FILE_NAME
+          replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
           git add -A
           git commit -m "Release a new RC"
           git push --set-upstream origin $versionName
