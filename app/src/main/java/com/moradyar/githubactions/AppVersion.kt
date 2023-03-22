@@ -1,3 +1,3 @@
 package com.moradyar.githubactions
 
-const val version = 1
+const val version = 2
