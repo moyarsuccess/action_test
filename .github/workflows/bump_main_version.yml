@@ -21,14 +21,12 @@ jobs:
         with:
           node-version: '14'
       - run: npm install replace -g
+      - run: git config --global user.email "moyarsuccess@gmail.com"
+      - run: git config --global user.name "Moyar"
+      - run: MAJOR=$(grep 'const val major =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+      - run: MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+      - run: PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
       - run: |
-          git config --global user.email "moyarsuccess@gmail.com"
-          git config --global user.name "Moyar"
-          
-          MAJOR=$(grep 'const val major =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
-          MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
-          PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
-          
           if [[ ${{ github.event.inputs.next_version_type }} -eq Major ]]
           then
             NEW_MAJOR=$(($MAJOR + 1))
@@ -36,15 +34,13 @@ jobs:
           else
             NEW_MINOR=$(($MINOR + 1))
             versionName=release/$MAJOR.$NEW_MINOR.$PATCH
-          
-          git checkout -b $versionName
-          
+      - run: git checkout -b $versionName
+      - run: |    
           if [[ ${{ github.event.inputs.next_version_type }} -eq Major ]]
           then
             replace "const val major = $MAJOR" "const val rcVersion = $NEW_MAJOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
           else
             replace "const val minor = $MINOR" "const val rcVersion = $NEW_MINOR" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
-
-          git add -A
-          git commit -m "Release a new RC"
-          git push --set-upstream origin $versionName
+      - run: git add -A
+      - run: git commit -m "Release a new RC"
+      - run: git push --set-upstream origin $versionName
