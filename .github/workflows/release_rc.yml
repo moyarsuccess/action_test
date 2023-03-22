@@ -27,11 +27,12 @@ jobs:
         with:
           node-version: '14'
       - run: npm install replace -g
-      - run: git checkout -b release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
-      - run: replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
       - run: |
           git config --global user.email "moyarsuccess@gmail.com"
           git config --global user.name "Moyar"
+          git checkout -b release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
+      - run: replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+      - run: |
           git add -A
           git commit -m "Bump the version"
           git push
