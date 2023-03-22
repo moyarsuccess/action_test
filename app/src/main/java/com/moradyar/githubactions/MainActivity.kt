@@ -13,6 +13,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        binding.tvTitle.text = "AppVersion: ${version.toString()}"
+        binding.tvTitle.text = fullVersionName
     }
 }

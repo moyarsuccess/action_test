@@ -2,19 +2,37 @@ name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on:
   workflow_dispatch:
+    inputs:
+      major_version:
+        description: 'Major version'
+        required: true
+        type: string
+
+      minor_version:
+        description: 'Minor version'
+        required: true
+        type: string
+
+      patch_version:
+        description: 'Patch version'
+        required: true
+        type: string
+
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
       - run: npm install replace -g
-      - run: replace 'version = 1' 'version = 2' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
+      - run: replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
       - run: |
-            git config --global user.email "moyarsuccess@gmail.com"
-            git config --global user.name "Moyar"
-            git add -A
-            git commit -m "Bump the version"
-            git push
+          git config --global user.email "moyarsuccess@gmail.com"
+          git config --global user.name "Moyar"
+          git add -A
+          git commit -m "Bump the version"
+          git push
