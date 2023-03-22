@@ -12,7 +12,7 @@ jobs:
           node-version: '14'
       - run: npm install replace -g
       - run: replace 'version = 1' 'version = 2' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
-      -name: git
-      - run: git add -A
-      - run: git commit -m "Bump the version"
-      - run: git push
+      - name: git
+        - run: git add -A
+        - run: git commit -m "Bump the version"
+        - run: git push
