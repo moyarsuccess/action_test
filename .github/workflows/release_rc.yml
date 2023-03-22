@@ -12,6 +12,9 @@ jobs:
           node-version: '14'
       - run: npm install replace -g
       - run: replace 'version = 1' 'version = 2' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
-      - run: git add -A
-      - run: git commit -m "Bump the version"
-      - run: git push
+      - run: |
+            git config --global user.email "moyarsuccess@gmail.com"
+            git config --global user.name "Moyar"
+            git add -A
+            git commit -m "Bump the version"
+            git push
