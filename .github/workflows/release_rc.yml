@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
+          ref: my_branch #release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
