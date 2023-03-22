@@ -19,7 +19,7 @@ on:
         type: string
 
 env:
-  FILE_NAME: /Users/mohammadmoradyar/AndroidStudioProjects/firework_sdk_v2/buildSrc/src/main/kotlin/AppVersion.kt
+  FILE_NAME: app/src/main/java/com/moradyar/githubactions/AppVersion.kt
   LINE_CONTENT: isRc = false
   NEW_LINE_CONTENT: isRc = false
 

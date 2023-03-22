@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  FILE_NAME: /Users/mohammadmoradyar/AndroidStudioProjects/firework_sdk_v2/buildSrc/src/main/kotlin/AppVersion.kt
+  FILE_NAME: app/src/main/java/com/moradyar/githubactions/AppVersion.kt
   LINE_CONTENT: const val rcVersion =
 
 jobs:
