@@ -1,5 +1,5 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: ReleaseRc
+run-name: ${{ github.actor }} started a new RC
 on:
   workflow_dispatch:
     inputs:
@@ -35,4 +35,4 @@ jobs:
       - run: |
           git add -A
           git commit -m "Bump the version"
-          git push
+          git push --set-upstream origin release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
