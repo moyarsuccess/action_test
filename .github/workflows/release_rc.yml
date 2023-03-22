@@ -23,12 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: my_branch #release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
       - run: npm install replace -g
+      - run: git checkout -b release/${{ inputs.major_version }}.${{ inputs.minor_version }}.${{ inputs.patch_version }}
       - run: replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
       - run: |
           git config --global user.email "moyarsuccess@gmail.com"
