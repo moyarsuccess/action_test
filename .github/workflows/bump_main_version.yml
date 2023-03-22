@@ -2,14 +2,15 @@ name: BumpMainVersion
 run-name: ${{ github.actor }} requested version increase for main
 on:
   workflow_dispatch:
-    next_version_type:
-      description: 'The next version type'
-      required: true
-      type: choice
-      default: Minor
-      options:
-        - Minor
-        - Major
+    inputs:
+      next_version_type:
+        description: 'The next version type'
+        required: true
+        type: choice
+        default: Minor
+        options:
+          - Minor
+          - Major
 
 jobs:
   bump-main-version:
