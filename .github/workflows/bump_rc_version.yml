@@ -18,6 +18,10 @@ jobs:
           node-version: '14'
       - run: npm install replace -g
       - run: |
+          MAJOR=$(grep 'const val major =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          versionName=release/$MAJOR.$MINOR.$PATCH
           version=$(grep 'const val rcVersion =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           newVersion=$(($version + 1))
           replace "const val rcVersion = $version" "const val rcVersion = $newVersion" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
