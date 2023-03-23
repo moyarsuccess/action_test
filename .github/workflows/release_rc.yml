@@ -25,3 +25,6 @@ jobs:
           git add -A
           git commit -m "Release a new RC"
           git push --set-upstream origin $versionName
+          tagName="${{ versionName }}.RC.1"
+          git tag -a $tagName -m "Tag a new RC ${{ tagName }}"
+          git push --set-upstream origin $tagName
