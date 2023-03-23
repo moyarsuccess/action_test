@@ -18,12 +18,14 @@ jobs:
           node-version: '14'
       - run: npm install replace -g
       - run: |
-          VERSION=$(grep 'const val rcVersion =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
-          NEW_VERSION=$(($VERSION + 1))
-          replace "const val rcVersion = $VERSION" "const val rcVersion = $NEW_VERSION" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
-      - run: |
+          version=$(grep 'const val rcVersion =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          newVersion=$(($version + 1))
+          replace "const val rcVersion = $version" "const val rcVersion = $newVersion" app/src/main/java/com/moradyar/githubactions/AppVersion.kt
           git config --global user.email "moyarsuccess@gmail.com"
           git config --global user.name "Moyar"
           git add -A
           git commit -m "Bump the version"
           git push
+          tagName="$versionName.RC.$newVersion"
+          git tag -a $tagName -m "Tag a new RC $tagName"
+          git push --set-upstream origin $tagName
