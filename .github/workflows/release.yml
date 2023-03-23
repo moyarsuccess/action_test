@@ -28,3 +28,6 @@ jobs:
           tagName="$MAJOR.$MINOR.$PATCH/final"
           git tag -a $tagName -m "Tag a new release $tagName"
           git push --set-upstream origin $tagName
+
+# Start publish job
+# Start deploy job
