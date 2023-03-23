@@ -20,3 +20,11 @@ jobs:
           git add -A
           git commit -m "Release a new version"
           git push
+          
+          MAJOR=$(grep 'const val major =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
+          
+          tagName="$MAJOR.$MINOR.$PATCH/final"
+          git tag -a $tagName -m "Tag a new release $tagName"
+          git push --set-upstream origin $tagName
