@@ -30,6 +30,10 @@ jobs:
           git add -A
           git commit -m "Bump the version"
           git push
-          tagName="$versionName.RC.$newVersion"
+          
+          tagName="$MAJOR.$MINOR.$PATCH/RC.$newVersion"
           git tag -a $tagName -m "Tag a new RC $tagName"
           git push --set-upstream origin $tagName
+
+# Start publish job
+# Start deploy job
