@@ -30,5 +30,7 @@ jobs:
           git tag -a $tagName -m "Tag a new RC $tagName"
           git push --set-upstream origin $tagName
 
-# Start publish job
-# Start deploy job
+  call-publish-job:
+    uses: ./.github/workflows/publish.yml
+  call-distribute-job:
+    uses: ./.github/workflows/distribute.yml
