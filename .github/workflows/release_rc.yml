@@ -31,6 +31,8 @@ jobs:
           git push --set-upstream origin $tagName
 
   call-publish-job:
+    needs: [ release-rc ]
     uses: ./.github/workflows/publish.yml
   call-distribute-job:
+    needs: [ call-publish-job ]
     uses: ./.github/workflows/distribute.yml
