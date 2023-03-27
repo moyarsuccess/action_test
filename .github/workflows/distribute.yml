@@ -2,6 +2,10 @@ name: Release Build
 
 on:
   workflow_call:
+    inputs:
+      branchName:
+        required: true
+        type: string
 
 jobs:
   test_job:
@@ -10,4 +14,7 @@ jobs:
     continue-on-error: true
     timeout-minutes: 20
     steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branchName }}
       - run: echo "Distributed!"
