@@ -6,26 +6,36 @@ on:
 jobs:
   release-rc:
     runs-on: ubuntu-latest
+    outputs:
+      branchName: ${{ steps.command.outputs.branchName }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v3
+
+      - id: setup_node
+        uses: actions/setup-node@v3
         with:
           node-version: '14'
-      - run: npm install replace -g
-      - run: |
-          git config --global user.email "moyarsuccess@gmail.com"
+      - id: install_replace
+        run: npm install replace -g
+
+      - id: command
+        run: |
+          git config --global user.email "moyar@fireworkhq.com"
           git config --global user.name "Moyar"
           MAJOR=$(grep 'const val major =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           MINOR=$(grep 'const val minor =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           versionName=release/$MAJOR.$MINOR.$PATCH
           git checkout -b $versionName
+          echo "::set-output name=branchName::$versionName"
           replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
           replace 'isSnapshot = true' 'isSnapshot = false' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
           git add -A
           git commit -m "Release a new RC"
           git push --set-upstream origin $versionName
-          
+
           tagName="$MAJOR.$MINOR.$PATCH/RC.1"
           git tag -a $tagName -m "Tag a new RC $tagName"
           git push --set-upstream origin $tagName
