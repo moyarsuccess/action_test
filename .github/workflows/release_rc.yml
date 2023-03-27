@@ -43,8 +43,8 @@ jobs:
   call-publish-job:
     needs: [ release-rc ]
     uses: ./.github/workflows/publish.yml
-      with:
-        branchName: ${{needs.release-rc.outputs.branchName}}
+    with:
+      branchName: ${{needs.release-rc.outputs.branchName}}
   call-distribute-job:
     needs: [ release-rc ]
     uses: ./.github/workflows/distribute.yml
