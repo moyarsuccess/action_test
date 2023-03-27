@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v3
-          with:
-            ref: ${{ inputs.branchName }}
+        with:
+          ref: ${{ inputs.branchName }}
       - run: echo "Published!"
 
