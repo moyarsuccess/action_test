@@ -29,7 +29,7 @@ jobs:
           PATCH=$(grep 'const val patch =' app/src/main/java/com/moradyar/githubactions/AppVersion.kt | rev | cut -d' ' -f1 | rev)
           versionName=release/$MAJOR.$MINOR.$PATCH
           git checkout -b $versionName
-          echo "::set-output name=branchName::$versionName"
+          echo "branchName=$versionName" >> $GITHUB_OUTPUT
           replace 'isRc = false' 'isRc = true' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
           replace 'isSnapshot = true' 'isSnapshot = false' app/src/main/java/com/moradyar/githubactions/AppVersion.kt
           git add -A
